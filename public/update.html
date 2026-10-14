@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Update Event - Jaya College</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+    <a href="index.html">Home</a>
+</nav>
+
+<main class="container">
+    <h2>Update Event</h2>
+
+    <label for="eventId">Select Event ID</label>
+    <select id="eventId" required>
+        <option value="">Loading events...</option>
+    </select>
+
+    <button type="button" id="loadButton">Load Event</button>
+
+    <form id="updateForm">
+        <label for="event_name">Event Name *</label>
+        <input id="event_name" name="event_name" required maxlength="150">
+
+        <label for="event_type">Event Type *</label>
+        <select id="event_type" name="event_type" required>
+            <option value="">Select Event Type</option>
+            <option value="Technical Fest">Technical Fest</option>
+            <option value="Cultural">Cultural</option>
+            <option value="Workshop">Workshop</option>
+            <option value="Sports">Sports</option>
+            <option value="Seminar">Seminar</option>
+            <option value="College Day">College Day</option>
+        </select>
+
+        <label for="event_date">Event Date *</label>
+        <input type="date" id="event_date" name="event_date" required>
+
+        <label for="venue">Venue *</label>
+        <select id="venue" name="venue" required>
+            <option value="">Select Venue</option>
+            <option value="Auditorium">Auditorium</option>
+            <option value="Seminar Hall">Seminar Hall</option>
+            <option value="College Ground">College Ground</option>
+            <option value="Computer Lab">Computer Lab</option>
+            <option value="Conference Hall">Conference Hall</option>
+        </select>
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description"></textarea>
+
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <p id="message" role="status"></p>
+
+    <a href="list.html">View All Events</a>
+</main>
+
+<footer>Jaya College Event Management</footer>
+
+<script>
+const eventId = document.getElementById("eventId");
+const form = document.getElementById("updateForm");
+const message = document.getElementById("message");
+
+async function apiRequest(url, options = {}) {
+    const response = await fetch(url, options);
+    const result = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            result.error || result.message || "Request failed."
+        );
+    }
+
+    return result;
+}
+
+// Load events into dropdown
+async function init() {
+    try {
+        const events = await apiRequest("/api/events");
+
+        eventId.replaceChildren(
+            new Option("Select an event", "")
+        );
+
+        events.forEach(event => {
+            eventId.add(
+                new Option(
+                    event.event_id + " - " + event.event_name,
+                    event.event_id
+                )
+            );
+        });
+
+        const selectedId =
+            new URLSearchParams(location.search).get("id");
+
+        if (selectedId) {
+            eventId.value = selectedId;
+            await loadEvent();
+        }
+
+        if (events.length === 0) {
+            message.textContent = "No events found. Insert an event first.";
+        }
+    } catch (error) {
+        message.textContent = "Unable to load events: " + error.message;
+    }
+}
+
+// Load selected event details into form
+async function loadEvent() {
+    if (!eventId.value) {
+        message.textContent = "Please select an event.";
+        return;
+    }
+
+    try {
+        const event = await apiRequest(
+            "/api/events/" + encodeURIComponent(eventId.value)
+        );
+
+        form.elements["event_name"].value = event.event_name || "";
+        form.elements["event_type"].value = event.event_type || "";
+        form.elements["event_date"].value =
+            String(event.event_date || "").slice(0, 10);
+        form.elements["venue"].value = event.venue || "";
+        form.elements["description"].value = event.description || "";
+
+        message.textContent = "Event loaded. You can edit the details.";
+    } catch (error) {
+        message.textContent = "Could not load event: " + error.message;
+    }
+}
+
+document.getElementById("loadButton")
+    .addEventListener("click", loadEvent);
+
+// Update event in database
+form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    if (!eventId.value) {
+        message.textContent = "Please select an event first.";
+        return;
+    }
+
+    const data = {
+        event_name: form.elements["event_name"].value.trim(),
+        event_type: form.elements["event_type"].value,
+        event_date: form.elements["event_date"].value,
+        venue: form.elements["venue"].value,
+        description: form.elements["description"].value.trim()
+    };
+
+    try {
+        message.textContent = "Updating event...";
+
+        const result = await apiRequest(
+            "/api/events/" + encodeURIComponent(eventId.value),
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }
+        );
+
+        message.textContent =
+            result.message || "Event updated successfully!";
+
+        await init();
+        eventId.value = data.event_id || eventId.value;
+    } catch (error) {
+        message.textContent = "Update failed: " + error.message;
+    }
+});
+
+init();
+</script>
+
+</body>
+</html>

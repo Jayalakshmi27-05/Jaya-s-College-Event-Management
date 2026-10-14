@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Jaya's College Event Management</title>
+
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            min-height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                linear-gradient(
+                    rgba(12, 28, 52, 0.40),
+                    rgba(12, 28, 52, 0.55)
+                ),
+                url("https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1920&q=85")
+                center center / cover no-repeat fixed;
+        }
+
+        /* Navigation bar */
+        nav {
+            width: 100%;
+            min-height: 85px;
+            padding: 18px 25px;
+            background: rgba(17, 40, 76, 0.97);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav .menu {
+            width: 100%;
+            max-width: 1500px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+
+            padding: 12px 17px;
+            border-radius: 7px;
+
+            transition:
+                background-color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        nav a:hover {
+            background-color: #3c6198;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        nav a:focus-visible {
+            outline: 2px solid white;
+            outline-offset: 3px;
+        }
+
+        /* Beautiful college background area */
+        .home-background {
+            min-height: calc(100vh - 85px);
+            width: 100%;
+        }
+
+        /* Footer */
+        footer {
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+            color: white;
+            background: rgba(17, 40, 76, 0.9);
+        }
+
+        /* Responsive navigation */
+        @media (max-width: 750px) {
+            nav {
+                padding: 15px 10px;
+            }
+
+            nav .menu {
+                justify-content: center;
+                gap: 5px;
+            }
+
+            nav a {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+
+            body {
+                background-attachment: scroll;
+            }
+        }
+
+        @media (max-width: 450px) {
+            nav .menu {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            nav a {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="menu">
+
+            <a href="index.html">Home</a>
+
+            <a href="insert.html">Insert Event</a>
+
+            <a href="list.html">List Events</a>
+
+            <a href="list.html">Search Event</a>
+
+            <a href="update.html">Update Event</a>
+
+            <a href="delete.html">Delete Event</a>
+
+        </div>
+    </nav>
+
+    <!-- College campus background -->
+    <main class="home-background" aria-label="College campus homepage">
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2026 Jaya's College Event Management
+    </footer>
+
+</body>
+</html>

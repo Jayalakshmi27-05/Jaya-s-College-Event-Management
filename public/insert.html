@@ -1,0 +1,149 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Insert Event | Jaya College</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Jaya's College Event Management</h1>
+    <p>Plan • Organize • Celebrate</p>
+</header>
+
+<nav>
+    <h2>Jaya Events</h2>
+    <div>
+        <a href="index.html">Home</a>
+        <a href="insert.html">Insert Event</a>
+        <a href="list.html">List Events</a>
+        <a href="search.html">Search Event</a>
+        <a href="update.html">Update Event</a>
+        <a href="delete.html">Delete Event</a>
+    </div>
+</nav>
+
+<main class="container">
+    <h2>Insert New Event</h2>
+
+    <form id="insertForm">
+        <label for="event_name">Event Name *</label>
+        <input
+            id="event_name"
+            name="event_name"
+            type="text"
+            maxlength="150"
+            placeholder="Enter event name"
+            required
+        >
+
+        <label for="event_type">Event Type *</label>
+        <select id="event_type" name="event_type" required>
+            <option value="">Select Event Type</option>
+            <option value="Technical Fest">Technical Fest</option>
+            <option value="Cultural">Cultural</option>
+            <option value="Workshop">Workshop</option>
+            <option value="Sports">Sports</option>
+            <option value="Seminar">Seminar</option>
+            <option value="College Day">College Day</option>
+        </select>
+
+        <label for="event_date">Event Date *</label>
+        <input
+            id="event_date"
+            name="event_date"
+            type="date"
+            required
+        >
+
+        <label for="venue">Venue *</label>
+        <select id="venue" name="venue" required>
+            <option value="">Select Venue</option>
+            <option value="Auditorium">Auditorium</option>
+            <option value="Seminar Hall">Seminar Hall</option>
+            <option value="College Ground">College Ground</option>
+            <option value="Computer Lab">Computer Lab</option>
+            <option value="Conference Hall">Conference Hall</option>
+        </select>
+
+        <label for="description">Description</label>
+        <textarea
+            id="description"
+            name="description"
+            placeholder="Describe your event"
+        ></textarea>
+
+        <button id="submitButton" type="submit">
+            Insert Event
+        </button>
+
+        <a class="btn secondary" href="list.html">
+            View Events
+        </a>
+    </form>
+
+    <p id="message" class="message" role="status"></p>
+</main>
+
+<footer>
+    © 2026 Jaya College Event Management
+</footer>
+
+<script>
+document.getElementById("insertForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const form = this;
+    const message = document.getElementById("message");
+
+    const formData = new FormData(form);
+
+    const data = {
+        event_name: formData.get("event_name").trim(),
+        event_type: formData.get("event_type").trim(),
+        event_date: formData.get("event_date"),
+        venue: formData.get("venue").trim(),
+        description: (formData.get("description") || "").trim()
+    };
+
+    if (
+        !data.event_name ||
+        !data.event_type ||
+        !data.event_date ||
+        !data.venue
+    ) {
+        message.textContent = "Please fill all required fields.";
+        return;
+    }
+
+    try {
+        message.textContent = "Please wait, inserting event...";
+
+        const response = await fetch("/api/events", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.error || "Insert failed.");
+        }
+
+        message.textContent =
+            "Event inserted successfully! Event ID: " + result.event_id;
+
+        form.reset();
+
+    } catch (error) {
+        console.error("Insert error:", error);
+        message.textContent = error.message;
+    }
+});
+</script>

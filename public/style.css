@@ -1,0 +1,672 @@
+
+/* =========================================
+   JAYA'S COLLEGE EVENT MANAGEMENT
+   Complete CSS Stylesheet
+========================================= */
+
+/* 1. RESET AND GENERAL STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f1f5fb;
+    color: #243451;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* 2. MAIN HEADER */
+header {
+    width: 100%;
+    text-align: center;
+    padding: 30px 20px;
+}
+
+header h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #172b4d;
+    margin-bottom: 8px;
+}
+
+header p {
+    font-size: 18px;
+    color: #475569;
+}
+
+/* Hero section */
+.hero {
+    background: linear-gradient(135deg, #e7efff, #f8faff);
+    padding: 45px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: clamp(26px, 4vw, 40px);
+    color: #172b4d;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 19px;
+    color: #475569;
+}
+
+/* 3. NAVIGATION BAR */
+nav {
+    width: 100%;
+    background-color: #172b4d;
+    color: white;
+    padding: 15px 4%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+nav h2 {
+    color: white;
+    font-size: 25px;
+    white-space: nowrap;
+}
+
+nav div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+nav a {
+    display: inline-block;
+    padding: 10px 14px;
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #34558a;
+    color: white;
+}
+
+/* 4. MAIN CONTAINER */
+.container,
+main {
+    width: 92%;
+    max-width: 1150px;
+    margin: 35px auto;
+}
+
+main h2,
+.container h2 {
+    color: #172b4d;
+    margin-bottom: 15px;
+}
+
+main > p,
+.container > p {
+    margin-bottom: 15px;
+}
+
+/* 5. CARDS */
+.card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(23, 43, 77, 0.08);
+    border: 1px solid #e5eaf2;
+}
+
+.card h2 {
+    font-size: 25px;
+    margin-bottom: 18px;
+}
+
+.card h3 {
+    font-size: 21px;
+    margin: 12px 0 8px;
+    color: #172b4d;
+}
+
+.card p {
+    color: #526078;
+    margin-bottom: 10px;
+}
+
+/* 6. HOME PAGE EVENT GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 28px;
+}
+
+.grid .card {
+    margin-bottom: 0;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* 7. EVENT IMAGES */
+.event-image {
+    display: block;
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 9px;
+    margin-bottom: 12px;
+}
+
+/* General images */
+img {
+    max-width: 100%;
+}
+
+/* 8. FORMS */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    display: block;
+    margin-top: 7px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #243451;
+}
+
+/* Text inputs, dropdowns and textareas */
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 15px;
+    color: #243451;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #3568b8;
+    box-shadow: 0 0 0 3px rgba(53, 104, 184, 0.13);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #94a3b8;
+}
+
+select {
+    cursor: pointer;
+}
+
+textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+/* 9. BUTTONS */
+button,
+.btn {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+    padding: 12px 22px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 7px;
+    background-color: #234b87;
+    color: white;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover,
+.btn:hover {
+    background-color: #172b4d;
+    color: white;
+}
+
+button:active,
+.btn:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Secondary button */
+.secondary {
+    background-color: #64748b;
+    color: white;
+}
+
+.secondary:hover {
+    background-color: #475569;
+}
+
+/* Danger button */
+.btn-danger,
+button.danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover,
+button.danger:hover {
+    background-color: #b91c1c;
+}
+
+/* Success button */
+.btn-success {
+    background-color: #15803d;
+}
+
+.btn-success:hover {
+    background-color: #166534;
+}
+
+/* 10. HOME PAGE MENU OPTIONS */
+.menu-grid,
+.options-grid,
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    margin: 25px 0;
+}
+
+.menu-grid a,
+.options-grid a,
+.dashboard-grid a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 155px;
+    padding: 24px 16px;
+    background-color: white;
+    border: 1px solid #e5eaf2;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(23, 43, 77, 0.08);
+    color: #234b87;
+    text-decoration: none;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.menu-grid a:hover,
+.options-grid a:hover,
+.dashboard-grid a:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(23, 43, 77, 0.15);
+    color: #172b4d;
+}
+
+.menu-grid a span,
+.options-grid a span,
+.dashboard-grid a span {
+    font-size: 34px;
+    line-height: 1.2;
+}
+
+/* 11. SEARCH BOX */
+.search-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-box button {
+    margin-top: 0;
+}
+
+/* 12. STATUS AND MESSAGE */
+.message {
+    margin-top: 18px;
+    padding: 10px 0;
+    font-size: 15px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.success-message {
+    padding: 12px;
+    background-color: #dcfce7;
+    color: #166534;
+    border-radius: 6px;
+}
+
+.error-message {
+    padding: 12px;
+    background-color: #fee2e2;
+    color: #991b1b;
+    border-radius: 6px;
+}
+
+/* 13. TABLES */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+th,
+td {
+    padding: 13px 15px;
+    text-align: left;
+    border: 1px solid #dbe3ef;
+    overflow-wrap: anywhere;
+}
+
+th {
+    background-color: #172b4d;
+    color: white;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+tbody tr:hover {
+    background-color: #edf4ff;
+}
+
+/* Table action links */
+td a {
+    color: #234b87;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+/* 14. EVENT DETAILS */
+.event-details {
+    background-color: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(23, 43, 77, 0.08);
+}
+
+.event-details p {
+    margin-bottom: 12px;
+}
+
+.event-details strong {
+    color: #172b4d;
+}
+
+/* 15. FOOTER */
+footer {
+    width: 100%;
+    margin-top: 40px;
+    padding: 22px 15px;
+    background-color: #172b4d;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* 16. RESPONSIVE DESIGN - TABLETS */
+@media (max-width: 900px) {
+    nav {
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    nav div {
+        width: 100%;
+    }
+
+    .grid,
+    .menu-grid,
+    .options-grid,
+    .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    header h1 {
+        font-size: 30px;
+    }
+}
+
+/* 17. RESPONSIVE DESIGN - MOBILE */
+@media (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+
+    nav {
+        padding: 15px 10px;
+    }
+
+    nav h2 {
+        font-size: 22px;
+        white-space: normal;
+    }
+
+    nav div {
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    nav a {
+        display: block;
+        width: 100%;
+        padding: 9px;
+    }
+
+    header {
+        padding: 24px 12px;
+    }
+
+    header h1,
+    .hero h1 {
+        font-size: 26px;
+    }
+
+    header p,
+    .hero p {
+        font-size: 16px;
+    }
+
+    .container,
+    main {
+        width: 94%;
+        margin: 20px auto;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .card h2 {
+        font-size: 22px;
+    }
+
+    .grid,
+    .menu-grid,
+    .options-grid,
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .event-image {
+        height: 200px;
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+    }
+
+    button,
+    .btn {
+        max-width: 100%;
+    }
+
+    .search-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box input,
+    .search-box button {
+        width: 100%;
+    }
+
+    table {
+        min-width: 600px;
+    }
+
+    th,
+    td {
+        padding: 10px;
+    }
+}
+
+/* 18. ACCESSIBILITY */
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid #60a5fa;
+    outline-offset: 3px;
+}
+
+/* Beautiful background for the default home page */
+body {
+    background:
+        linear-gradient(
+            rgba(13, 29, 53, 0.58),
+            rgba(13, 29, 53, 0.68)
+        ),
+        url("https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1920&q=85")
+        center center / cover no-repeat fixed;
+
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+/* College homepage hero */
+body > header.hero {
+    background: transparent;
+    padding: 65px 20px;
+    text-align: center;
+}
+
+body > header.hero h1 {
+    color: #ffffff;
+    font-size: clamp(30px, 4vw, 46px);
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.6);
+}
+
+body > header.hero p {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+/* Homepage headings */
+.container > section > h2,
+.container > h2 {
+    color: #ffffff;
+}
+
+/* Beautiful event cards */
+.card {
+    background: rgba(255, 255, 255, 0.96);
+    color: #172b4d;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    transition: transform 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h2,
+.card h3 {
+    color: #17365d;
+}
+
+.card p {
+    color: #475569;
+}
+
+/* Keep navigation visible */
+nav {
+    background: rgba(15, 35, 68, 0.97);
+}
+
+/* Footer */
+footer {
+    background: rgba(15, 35, 68, 0.97);
+    color: #ffffff;
+}
+
+/* Mobile background */
+@media (max-width: 600px) {
+    body {
+        background-attachment: scroll;
+    }
+
+    body > header.hero {
+        padding: 45px 15px;
+    }
+}

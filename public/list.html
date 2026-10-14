@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Events - Jaya College</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .events-container {
+            max-width: 1250px;
+            margin: 35px auto;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            overflow-x: auto;
+        }
+
+        .events-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: #162b4e;
+        }
+
+        .events-table th,
+        .events-table td {
+            border: 1px solid #d6dfeb;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .events-table th {
+            background: #162b4e;
+            color: white;
+        }
+
+        .events-table tbody tr:nth-child(even) {
+            background: #f3f6fa;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 10px 15px;
+            margin: 3px;
+            border-radius: 6px;
+            background: #244f8b;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .action-btn:hover {
+            background: #10284c;
+        }
+
+        .delete-btn {
+            background: #bd3030;
+        }
+
+        .delete-btn:hover {
+            background: #8d1717;
+        }
+
+        .details-card {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            border: 1px solid #d6dfeb;
+            border-radius: 12px;
+            background: white;
+            color: #162b4e;
+        }
+
+        .details-card h2 {
+            color: #244f8b;
+            margin-top: 0;
+        }
+
+        .details-card p {
+            padding: 12px;
+            margin: 8px 0;
+            background: #f3f6fa;
+            border-radius: 6px;
+            overflow-wrap: anywhere;
+        }
+
+        .details-card strong {
+            display: inline-block;
+            min-width: 140px;
+        }
+
+        .event-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 12px 0;
+        }
+
+        .status-message {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #244f8b;
+        }
+
+        @media (max-width: 700px) {
+            .events-container {
+                margin: 15px;
+                padding: 12px;
+            }
+
+            .events-table th,
+            .events-table td {
+                padding: 9px;
+            }
+
+            .action-btn {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="insert.html">Insert Event</a>
+    <a href="list.html">List Events</a>
+    <a href="listOne.html">Search Event</a>
+    <a href="update.html">Update Event</a>
+    <a href="delete.html">Delete Event</a>
+</nav>
+
+<header class="hero">
+    <h1>All College Events</h1>
+    <p>Explore every event registered in the system</p>
+</header>
+
+<main class="events-container">
+
+    <button class="action-btn" onclick="location.href='insert.html'">
+        + Add New Event
+    </button>
+
+    <button class="action-btn" onclick="loadEvents()">
+        Refresh
+    </button>
+
+    <p id="message" class="status-message" aria-live="polite"></p>
+
+    <table class="events-table">
+        <thead>
+            <tr>
+                <th>Event ID</th>
+                <th>Event Name</th>
+                <th>Event Type</th>
+                <th>Event Date</th>
+                <th>Venue</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody id="eventsBody">
+            <tr>
+                <td colspan="7">Loading events...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Selected event details appear here -->
+    <section id="detailsCard" class="details-card">
+        <h2>Selected Event Details</h2>
+
+        <img
+            class="event-image"
+            src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80"
+            alt="College event"
+        >
+
+        <p><strong>Event ID:</strong> <span id="d_id"></span></p>
+        <p><strong>Event Name:</strong> <span id="d_name"></span></p>
+        <p><strong>Event Type:</strong> <span id="d_type"></span></p>
+        <p><strong>Event Date:</strong> <span id="d_date"></span></p>
+        <p><strong>Venue:</strong> <span id="d_venue"></span></p>
+        <p><strong>Description:</strong> <span id="d_description"></span></p>
+
+        <button class="action-btn" onclick="closeDetails()">
+            Close Details
+        </button>
+    </section>
+
+</main>
+
+<footer>Jaya College Event Management</footer>
+
+<script>
+    const eventsBody = document.getElementById("eventsBody");
+    const message = document.getElementById("message");
+    const detailsCard = document.getElementById("detailsCard");
+
+    // Load all events from the Node.js server
+    async function loadEvents() {
+        message.textContent = "";
+        detailsCard.style.display = "none";
+        eventsBody.innerHTML =
+            '<tr><td colspan="7">Loading events...</td></tr>';
+
+        try {
+            const response = await fetch("/api/events");
+            const events = await response.json();
+
+            if (!response.ok) {
+                throw new Error(events.error || "Unable to load events.");
+            }
+
+            eventsBody.replaceChildren();
+
+            if (!Array.isArray(events) || events.length === 0) {
+                eventsBody.innerHTML =
+                    '<tr><td colspan="7">No events found. Please insert an event.</td></tr>';
+                return;
+            }
+
+            events.forEach(event => {
+                const row = document.createElement("tr");
+
+                addCell(row, event.event_id);
+                addCell(row, event.event_name);
+                addCell(row, event.event_type);
+                addCell(row, formatDate(event.event_date));
+                addCell(row, event.venue);
+                addCell(row, event.description);
+
+                const actions = document.createElement("td");
+
+                const viewButton = document.createElement("button");
+                viewButton.className = "action-btn";
+                viewButton.textContent = "View";
+                viewButton.onclick = () => showEvent(event.event_id);
+
+                const editButton = document.createElement("button");
+                editButton.className = "action-btn";
+                editButton.textContent = "Edit";
+                editButton.onclick = () => {
+                    location.href =
+                        "update.html?id=" +
+                        encodeURIComponent(event.event_id);
+                };
+
+                const deleteButton = document.createElement("button");
+                deleteButton.className = "action-btn delete-btn";
+                deleteButton.textContent = "Delete";
+                deleteButton.onclick = () => deleteEvent(event.event_id);
+
+                actions.append(viewButton, editButton, deleteButton);
+                row.appendChild(actions);
+                eventsBody.appendChild(row);
+            });
+
+            message.textContent = "Events loaded successfully.";
+
+        } catch (error) {
+            eventsBody.innerHTML =
+                '<tr><td colspan="7">Could not load events.</td></tr>';
+            message.textContent = error.message;
+        }
+    }
+
+    // Add a safe text cell to a table row
+    function addCell(row, value) {
+        const cell = document.createElement("td");
+        cell.textContent =
+            value === null || value === undefined || value === ""
+                ? "-"
+                : value;
+        row.appendChild(cell);
+    }
+
+    // Display date in YYYY-MM-DD format
+    function formatDate(value) {
+        if (!value) return "-";
+        return String(value).slice(0, 10);
+    }
+
+    // Fetch and display the selected event below the table
+    async function showEvent(id) {
+        message.textContent = "Loading selected event...";
+
+        try {
+            const response = await fetch(
+                "/api/events/" + encodeURIComponent(id)
+            );
+
+            const event = await response.json();
+
+            if (!response.ok) {
+                throw new Error(event.error || "Event not found.");
+            }
+
+            document.getElementById("d_id").textContent =
+                event.event_id ?? "-";
+
+            document.getElementById("d_name").textContent =
+                event.event_name || "-";
+
+            document.getElementById("d_type").textContent =
+                event.event_type || "-";
+
+            document.getElementById("d_date").textContent =
+                formatDate(event.event_date);
+
+            document.getElementById("d_venue").textContent =
+                event.venue || "-";
+
+            document.getElementById("d_description").textContent =
+                event.description || "-";
+
+            detailsCard.style.display = "block";
+            message.textContent = "Selected event details loaded.";
+
+            detailsCard.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        } catch (error) {
+            message.textContent = error.message;
+        }
+    }
+
+    // Delete an event using the API route
+    async function deleteEvent(id) {
+        if (!confirm("Are you sure you want to delete this event?")) {
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                "/api/events/" + encodeURIComponent(id),
+                { method: "DELETE" }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || "Delete failed.");
+            }
+
+            message.textContent = result.message || "Event deleted.";
+
+            await loadEvents();
+
+        } catch (error) {
+            message.textContent = error.message;
+        }
+    }
+
+    function closeDetails() {
+        detailsCard.style.display = "none";
+    }
+
+    // Automatically load events when the page opens
+    loadEvents();
+</script>
+
+</body>
+</html>
